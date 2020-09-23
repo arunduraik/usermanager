@@ -1,0 +1,53 @@
+<div class='card'>
+    <div class='card-header'>{{pageTitle}}</div>
+    <div class='card-body'>
+      <div class='table-responsive'>
+        <div class='row'>
+          <div class='col-md-4'>
+            <button class='btn btn-primary' (click)='toggle()'>
+              {{ showImage ? 'Hide' : 'Show'}} Image
+             </button>
+          </div>
+        <div class='col-md-8'>
+          <div class='row'>
+            <div class='col-md-4'> <b>Filtered by:</b></div>
+            <div class='col-md-4'>Filter by: {{ listFilter }}</div>
+            <div class='col-md-4'><input type='text' [(ngModel)]="listFilter" /></div>
+        </div>
+      </div>
+      </div>
+
+        <table class='table' *ngIf='products && products.length'>
+          <thead>
+            <tr>
+              <th *ngIf="showImage">
+                Image
+              </th>
+              <th>Product</th>
+              <th>Code</th>
+              <th>Available</th>
+              <th>Price</th>
+              <th>5 Star Rating</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let prodcut of filterProducts">
+              <td *ngIf="showImage">
+                <img [src]="prodcut.imageUrl" [style.width.px]='imageWidth'
+                [style.margin.px]='imageMargin' [title]="prodcut.productName" />
+              </td>
+              <td><a [routerLink]="['/products',prodcut.productId]">{{ prodcut.productName | lowercase}}</a></td>
+              <td>{{ prodcut.productCode | convertToSpace: '-' }}</td>
+              <td>{{ prodcut.releaseDate }}</td>
+              <td>{{ prodcut.price | currency:'INR':'symbol':'3.3-4' }}</td>
+              <td><pm-star [rating]='prodcut.starRating' (ratingClicked)='onRatingClicked($event)'></pm-star></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div        class='alert alert-danger'>
+    Error:
+  </div>
